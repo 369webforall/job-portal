@@ -2,9 +2,9 @@ import { pgTable, varchar } from "drizzle-orm/pg-core";
 import { createdAt, updatedAt } from "../schemaHelpers";
 import { UserTable } from "./user";
 import { relations } from "drizzle-orm";
-import { uuid } from "drizzle-orm/pg-core";
+
 export const UserResumeTable = pgTable("user_resumes", {
-  userId: uuid()
+  userId: varchar()
     .primaryKey()
     .references(() => UserTable.id),
   resumeFileUrl: varchar().notNull(),

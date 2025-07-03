@@ -2,11 +2,11 @@ import { boolean, pgTable, varchar } from "drizzle-orm/pg-core";
 import { createdAt, updatedAt } from "../schemaHelpers";
 import { UserTable } from "./user";
 import { relations } from "drizzle-orm";
-import { uuid } from "drizzle-orm/pg-core";
+
 export const UserNotificationSettingsTable = pgTable(
   "user_notification_settings",
   {
-    userId: uuid()
+    userId: varchar()
       .primaryKey()
       .references(() => UserTable.id),
     newJobEmailNotifications: boolean().notNull().default(false),

@@ -53,7 +53,7 @@ export const JobListingTable = pgTable(
   "job_listings",
   {
     id,
-    organizationId: uuid()
+    organizationId: varchar()
       .references(() => OrganizationTable.id, { onDelete: "cascade" })
       .notNull(),
     title: varchar().notNull(),

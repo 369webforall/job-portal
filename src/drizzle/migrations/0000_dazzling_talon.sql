@@ -5,7 +5,7 @@ CREATE TYPE "public"."job_listings_location_requirement" AS ENUM('in-office', 'h
 CREATE TYPE "public"."job_listings_wage_interval" AS ENUM('hourly', 'yearly');--> statement-breakpoint
 CREATE TYPE "public"."job_listing_applications_stage" AS ENUM('denied', 'applied', 'interested', 'interviewed', 'hired');--> statement-breakpoint
 CREATE TABLE "users" (
-	"id" uuid PRIMARY KEY NOT NULL,
+	"id" varchar PRIMARY KEY NOT NULL,
 	"name" varchar NOT NULL,
 	"imageUrl" varchar NOT NULL,
 	"email" varchar NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE "users" (
 --> statement-breakpoint
 CREATE TABLE "job_listings" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"organizationId" uuid NOT NULL,
+	"organizationId" varchar NOT NULL,
 	"title" varchar NOT NULL,
 	"description" text NOT NULL,
 	"wage" integer,
@@ -35,7 +35,7 @@ CREATE TABLE "job_listings" (
 --> statement-breakpoint
 CREATE TABLE "job_listing_applications" (
 	"jobListingId" uuid NOT NULL,
-	"userId" uuid NOT NULL,
+	"userId" varchar NOT NULL,
 	"coverLetter" text,
 	"rating" integer,
 	"stage" "job_listing_applications_stage" DEFAULT 'applied' NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE "job_listing_applications" (
 );
 --> statement-breakpoint
 CREATE TABLE "organizations" (
-	"id" uuid PRIMARY KEY NOT NULL,
+	"id" varchar PRIMARY KEY NOT NULL,
 	"name" varchar NOT NULL,
 	"imageUrl" varchar,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -53,8 +53,8 @@ CREATE TABLE "organizations" (
 );
 --> statement-breakpoint
 CREATE TABLE "organization_user_settings" (
-	"userId" uuid NOT NULL,
-	"organizationId" uuid NOT NULL,
+	"userId" varchar NOT NULL,
+	"organizationId" varchar NOT NULL,
 	"newApplicationEmailNotifications" boolean DEFAULT false NOT NULL,
 	"minimumRating" integer,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE "organization_user_settings" (
 );
 --> statement-breakpoint
 CREATE TABLE "user_notification_settings" (
-	"userId" uuid PRIMARY KEY NOT NULL,
+	"userId" varchar PRIMARY KEY NOT NULL,
 	"newJobEmailNotifications" boolean DEFAULT false NOT NULL,
 	"aiPrompt" varchar,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE "user_notification_settings" (
 );
 --> statement-breakpoint
 CREATE TABLE "user_resumes" (
-	"userId" uuid PRIMARY KEY NOT NULL,
+	"userId" varchar PRIMARY KEY NOT NULL,
 	"resumeFileUrl" varchar NOT NULL,
 	"resumeFileKey" varchar NOT NULL,
 	"aiSummary" varchar,

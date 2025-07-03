@@ -3,7 +3,7 @@ import {
   integer,
   pgTable,
   primaryKey,
-  uuid,
+  varchar,
 } from "drizzle-orm/pg-core";
 import { createdAt, updatedAt } from "../schemaHelpers";
 import { UserTable } from "./user";
@@ -13,10 +13,10 @@ import { relations } from "drizzle-orm";
 export const OrganizationUserSettingsTable = pgTable(
   "organization_user_settings",
   {
-    userId: uuid()
+    userId: varchar()
       .notNull()
       .references(() => UserTable.id),
-    organizationId: uuid()
+    organizationId: varchar()
       .notNull()
       .references(() => OrganizationTable.id),
     newApplicationEmailNotifications: boolean().notNull().default(false),
