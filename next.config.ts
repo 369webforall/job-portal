@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   experimental: {
     useCache: true,
   },
+  devIndicators: false,
 };
 
 export default nextConfig;
