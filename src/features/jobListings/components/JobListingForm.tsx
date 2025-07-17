@@ -24,9 +24,7 @@ import {
 
 import {
   experienceLevels,
-  JobListingTable,
   jobListingTypes,
-  locationRequirementEnum,
   locationRequirements,
   wageIntervals,
 } from "@/drizzle/schema";
@@ -37,19 +35,18 @@ import {
   formatWageInterval,
 } from "../lib/formatters";
 import { StateSelectItems } from "./StateSelectItems";
-// import { MarkdownEditor } from "@/components/markdown/MarkdownEditor";
+import { MarkdownEditor } from "@/components/markdown/MarkdownEditor";
 import { Button } from "@/components/ui/button";
-// import { LoadingSwap } from "@/components/LoadingSwap";
-import { Loader2Icon } from "lucide-react";
-
+import { LoadingSwap } from "@/components/LoadingSwap";
+import { createJobListing } from "../actions/actions";
 import { toast } from "sonner";
 
 const NONE_SELECT_VALUE = "none";
 
-export function JobListingForm(jobListing) {
+export function JobListingForm() {
   const form = useForm({
     resolver: zodResolver(jobListingSchema),
-    defaultValues: jobListing ?? {
+    defaultValues: {
       title: "",
       description: "",
       stateAbbreviation: null,
@@ -62,15 +59,10 @@ export function JobListingForm(jobListing) {
     },
   });
   async function onSubmit(data: z.infer<typeof jobListingSchema>) {
-    // const action = jobListing
-    //   ? updateJobListing.bind(null, jobListing.id)
-    //   : createJobListing;
-    // const res = await action(data);
-
-    // if (res.error) {
-    //   toast.error(res.message);
-    // }
-    console.log(data);
+    const res = await createJobListing(data);
+    if (res.error) {
+      toast.error(res.message);
+    }
   }
   return (
     <Form {...form}>
@@ -276,7 +268,7 @@ export function JobListingForm(jobListing) {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                {/* <MarkdownEditor {...field} markdown={field.value} /> */}
+                <MarkdownEditor {...field} markdown={field.value} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -287,9 +279,9 @@ export function JobListingForm(jobListing) {
           type="submit"
           className="w-full"
         >
-          {/* <LoadingSwap isLoading={form.formState.isSubmitting}>
+          <LoadingSwap isLoading={form.formState.isSubmitting}>
             Create Job Listing
-          </LoadingSwap> */}
+          </LoadingSwap>
         </Button>
       </form>
     </Form>
